@@ -1,7 +1,6 @@
 package com.aatif.book_review_api.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,9 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Optional<Book> getBookById(Long id) {
-        return bookRepository.findById(id);
+    public Book getBookById(Long id) {
+        return bookRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Book not found"));
     }
 
     public Book saveBook(Book book) {
