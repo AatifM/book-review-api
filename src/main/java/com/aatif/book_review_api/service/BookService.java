@@ -34,4 +34,16 @@ public class BookService {
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
+
+    public Book updateBook(Long id, Book updatedBook) {
+        return bookRepository.findById(id)
+            .map(existingBook -> {
+                existingBook.setTitle(updatedBook.getTitle());
+                existingBook.setAuthor(updatedBook.getAuthor());
+                existingBook.setIsbn(updatedBook.getIsbn());
+                existingBook.setDescription(updatedBook.getDescription());
+                return bookRepository.save(existingBook); // Save the updated book
+            })
+            .orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+    }   
 }
